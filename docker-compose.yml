@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
 
   site:
@@ -8,12 +6,12 @@ services:
     depends_on:
       - db
     build:
-      context: ""
+      context: .
       dockerfile: Dockerfile
     working_dir: /var/app/current
     ports:
       - ${PORT}:${PORT}
-#      - ${DEBUG_PORT}:9000
+      - ${DEBUG_PORT}:9000
     stdin_open: true
     tty: true
     volumes:
@@ -28,13 +26,13 @@ services:
     container_name: db_laravel
     restart: "no"
     build:
-      context: mysql
+      context: "mysql"
       dockerfile: Dockerfile
     working_dir: /app
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel
-      MYSQL_USER: root
+      MYSQL_USER: user
       MYSQL_PASSWORD: root
     ports:
       - ${MYSQL_PORT}:3306
