@@ -1,4 +1,14 @@
 <?php
+//$a=1;
+//echo "1";
+//echo "<br>";
+//if (true) {
+//    echo "2";
+//}
+//phpinfo();
+//xdebug_info();
+//xdebug_info();
+
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
