@@ -30,14 +30,22 @@ Call http://localhost in your browser with any port changes added to the url.
 
 If not on linux, copy the commands from the .sh files and run them on the command line.
 
-Enter docker container:
-docker exec -it laraval bash
-Execute command inside container:
-composer create-project laravel/laravel laravel
+[//]: # (Enter docker container:)
 
-ssh into mysql container:
-mysql --host=db -uroot -proot
-create database laravel
+[//]: # (docker exec -it laraval bash)
+
+[//]: # (Execute command inside container:)
+
+[//]: # (composer create-project laravel/laravel laravel)
+
+docker exec -it db bash mysql_docker_init.sh
+
+
+[//]: # (ssh into mysql container:)
+
+[//]: # (mysql --host=db -uroot -proot)
+
+[//]: # (create database laravel)
 
 or use artisan to make db and tables:
 https://kinsta.com/blog/laravel-crud/
@@ -54,49 +62,9 @@ composer install
 restart your application server:
 docker restart laravel
 
-===
+Call localhost:8001 in your browser and click on Run migrations 
 
-Bugs/Fixes
+bugs and fixes, notes see notes.txt
 
-I had to delete dbdata in laravel-10-php-8-docker. Apparently I tried to build with a different version of mysql and 
-files of that version where left behind. Deleting dbdata and redoing dcBuild.sh created the following error.
-
-ERROR 1449 (HY000): The user specified as a definer ('mysql.infoschema'@'localhost') does not exist
-Fixed by doing this: 
-https://stackoverflow.com/a/62129259/779803
-
-SQLSTATE[HY000] [1130] Host '172.27.0.3' is not allowed to connect to this MySQL server
-host: localhost
-select host from mysql.user where user='root'\G
-
-CREATE USER 'root'@'%' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
-FLUSH PRIVILEGES;
-
-Comment out the bind address from the file /etc/mysql/my.cnf:
-#bind-address  = 127.0.0.1
-sudo service mysql restart
-
-Tried to add myself to the same group as Docker and it didn't work. Notes:
-
-If you want to add your user to the group that docker is part of, for Ubuntu list id:group of docker:
-
-stat -c '%u:%g' /var/run/docker.sock
-
-For me, this displayed:
-
-0:0
-
-View groups current user is a member of:
-
-id --groups
-
-add user to group docker is in:
-
-sudo usermod -a -G [group-name] [user-name]
-
-For me, this was sudo usermod -a -G 0 matt
-
-You may need to logout and login (close and reopen the terminal) or restart to get the groups permissions.
 
 

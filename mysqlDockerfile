@@ -1,0 +1,20 @@
+FROM ubuntu:24.04 AS base
+
+#RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+#RUN apt-get update -y && apt-get install -qq -y --no-install-recommends apt-utils locales build-essential libaio1 zip unzip iptables iputils-ping telnet wget curl vim net-tools sudo ca-certificates
+#RUN apt-get -y update
+
+#RUN apt-get update -qq && apt-get install -y mysql-server vim telnet
+RUN apt-get update -qq && apt-get install -y mysql-server-core-8.0 mysql-server-8.0 vim telnet
+
+# apt install mysql-server-core-8.0 mysql-server-8.0
+
+# fix error when trying to start mysql
+# ERROR "warning: cannot change directory to /nonexistent: No such file or directory"
+# https://serverfault.com/questions/755763/mysql-nonexistent-home-vs-no-directory-logging-in-with-home/942422
+# "assign a home directory to the mysql user"
+RUN usermod -d /var/lib/mysql/ mysql
+
+
+
+
